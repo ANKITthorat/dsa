@@ -1,0 +1,126 @@
+#include<iostream>
+#define size 20
+using namespace std;
+class btree
+{
+public:
+    char data;
+    btree *left;
+    btree *right;
+};
+class EXP_TREE
+{
+    btree *stack[size];
+    int top;
+public:
+    btree *root;
+    EXP_TREE()
+    {
+        root=NULL;
+        top=-1;
+    }
+    void create(char exp[]);
+    void push(btree *);
+    void inorder(btree *root);
+    void preorder(btree *root);
+    void postorder(btree *root);
+    btree *pop();
+    int isemptyl(int);
+};
+void EXP_TREE::create(char exp[])
+{
+    int pos;
+    char ch;
+    pos=0;
+    ch=exp[pos];
+    while(ch!='\0')
+    {
+        root=new btree;
+        root->left=root->right=NULL;
+        root->data=ch;
+        if(isalpha(ch))
+            push(root);
+        else
+if(ch=='^'||ch=='*'||ch=='/'||ch=='+'||ch=='-')
+{
+    root->right=pop();
+    root->left=pop();
+    push(root);
+}
+else
+{
+    cout<<"Invalid character in expression";
+    pos++;
+    ch=exp[pos];
+}
+root=pop();
+}
+
+void EXP_TREE :: push(btree *Node)
+{
+    if(top+1>=size)
+        cout<<"Error: Stack is full";
+    top++;
+    stack[top]=Node;
+}
+
+btree *EXP_TREE :: pop()
+{
+    btree *Node;
+    if(top==-1)
+        cout<<"Error:Stack is empty";
+    Node=stack[top];
+    top--;
+    return(Node);
+}
+
+void EXP_TREE:: inorder(btree *root)
+{
+    btree *temp;
+    temp=root;
+    if(temp!=NULL)
+    {
+        inorder(temp->left);
+        cout<<temp->data;
+        inorder(temp->right);
+    }
+}
+
+void EXP_TREE :: preorder(btree *root)
+{
+    btree *temp;
+    temp=root;
+    if(temp!=NULL)
+    {
+cout<<temp->data;
+preorder(temp->left);
+preorder(temp->right);
+}
+}
+void EXP_TREE :: postorder(btree *root)
+{
+    btree *temp;
+    temp=root;
+    if(temp!=NULL)
+    {
+        postorder(temp->left);
+        postorder(temp->right);
+        cout<<temp->data;
+    }
+}
+int main()
+{
+    char exp[80];
+    EXP_TREE obj;
+    cout<<"Enter the postfix expression";
+    cin>>exp;
+    obj.create(exp);
+    cout<<"\n The tree is created.\n";
+    cout<<"\n The inorder traversal of it";
+    obj.inorder(obj.root);
+    cout<<"\n The preorder traversal of it";
+    obj.preorder(obj.root);
+    cout<<"\n The postorder traversal of it";
+    obj.postorder(obj.root);
+    return 0;
+}
