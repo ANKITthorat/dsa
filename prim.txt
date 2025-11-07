@@ -1,0 +1,111 @@
+#include <iostream>
+define 10 999
+using namespace std;
+class kruskal
+{
+private:
+typedef struct graph
+{
+int v1,v2,cost;
+}gr;
+gr g;
+public:
+int tot_edges,tot_nodes;
+void create();
+void spanning_tree();
+void getdata();
+int minimum(int); }; 
+int find(int v2, int parent[])
+{
+while(parent[v2]!=v2)
+{
+v2=parent[v2];
+}
+return v2;
+}
+void union(int i, int j, int parent[])
+{
+if(i<j)
+{
+parent[j]=i;
+}
+else
+{
+parent[i]=j;
+}
+}
+void kruskal::getdata()
+{
+cout<<"\n Enter total number of nodes";
+cin>>tot_nodes;
+cout<<"\n Enter total number of edges";
+cin>>tot_edges;
+}
+void kruskal::minimum(int n)
+{
+    int i,small,pos;
+    small=10;
+    pos=-1;
+    for(i=0;i<n;i++)
+    {
+        if(g[i].cost<small)
+        {
+            small=g[i].cost;
+            pos=i;
+        }
+    }
+    return pos;
+}
+}
+void kruskal::spanning_tree()
+{
+    int count,k,v1,v2,i,j,tree[10][10],pos,parent[10];
+    int sum,
+    count=0;
+    sum=0;
+    for(i=0;i<tot_nodes;i++)
+        parent[i]=i;
+    while(count!=tot_nodes-1;i++)
+    {
+        pos=minimum(tot_edges);
+        if(pos==-1)
+            break;
+        v1=g[pos].v1;
+        v2=g[pos].v2;
+        i=find(v1,parent);
+        j=find(v2,parent);
+
+        if(i!=j)
+        {
+            tree[k][0]=v1;
+            tree[k][1]=v2;
+            k++;
+            count++;
+            sum+=g[pos].cost;
+            union(i,j,parent);
+        }
+        g[pos].cost=10;
+    }
+    if(count==tot_nodes-1)
+    {
+        cout<<"\n spanning tree is";
+        for(i=0;i<tot_nodes-1;i++)
+{
+    cout<<"["<<tree[i][0];
+    cout<<" ";
+    cout<<tree[i][1]<<"]"<<endl;}
+    cout<<"\n cost of spanning tree is ="<<sum<<endl; }
+else
+{
+    cout<<"There is no spanning tree";
+}
+}
+int main()
+{
+    kruskal obj;
+    cout<<"\n \t Graph Creation ";
+    obj.getdata();
+    obj.create();
+    obj.spanning_tree();
+    return 0;
+}
