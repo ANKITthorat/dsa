@@ -1,0 +1,102 @@
+#include<iostream>
+#define member 1
+#define nonmember 0
+#define infinity 999
+#define 10 10
+using namespace std;
+class sp
+{
+private: int g[10][10],q[10];
+public: int front,rear,n;
+void build_graph();
+void dikstra(int,int);
+void insert_q(int);
+int delet_q(int);
+};
+void sp::build_graph()
+{
+int i,j,v1,v2;
+for(i=1;i<=n;i++)
+{
+for(j=1;j<=1;j++)
+{
+cout<<"\n Enter the edge of V"<<i<<"to V"<<j<<":";
+cin>>g[i][j];
+}
+cout<<"\n";
+}
+}
+void sp::insert_q(int index)
+{
+q[index]=1; //node with smallest path is inserted.
+}
+void sp::delet_q(int i)
+{
+if(q[i]==1) //smallest path length
+{
+return i;
+}
+return infinity; //if it is not a smallest path node.
+}
+void sp::dikstra(int src, int dest)
+{
+    int small,dist[10],current,start,new1;
+    int temp,i;
+    for(i=0;i<n;i++)
+    {
+        q[i]=0;
+        dist[i]=infinity;
+    }
+    //starting from source node
+    //initial distance is zero
+    //consider source node as a current node
+    q[src]=1;
+    dist[src]=0;
+    current=src;
+    while(current!=dest)
+    {
+        small=infinity;
+        start=dist[current];
+        for(i=1;i<=n;i++)
+        {
+            if(q[i]==0)
+            {
+                new1=start+g[current][i];
+                if(new1<dist[i])
+                dist[i]=new1;
+                if(dist[i]<small)
+                //finding smallest dist
+                {
+                    small=dist[i];
+                    temp=i;
+                }
+            }
+        }
+        current=temp;
+        insert_q(current);
+    }
+}
+int main()
+{
+    int scr,dest,path_node,k;
+    sp obj;
+    cout<<"n Enter the number of vertices";
+    cin>>obj.n;
+    obj.buld_graph();
+    cout<<"n Eneter the source";
+    cin>>src;
+    cout<<"n Eneter the destination";
+    cin>>dest;
+    obj.dikstra(src,dest);
+cout<<"\n The sortest path is ";
+obj.front=1;
+obj.rear=obj.n;
+while(obj.front<=obj.rear)
+{
+path_node=obj.delet_q(obj.front);
+if(path_node!=infinity)
+cout<<" "<<path_node;
+obj.front++;
+}
+return 0;
+}
