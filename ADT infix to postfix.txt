@@ -1,0 +1,86 @@
+#include<iostream>
+#include<string>
+using namespace std;
+typedef struct stack
+{
+    char data;
+    struct stack *next;
+}node;
+node *top=NULL;
+
+int main()
+{
+    int op;
+    int push(char x,node **top);
+    int pop(node **top);
+    void postfix();
+    do
+    {
+        cout<<"\n 1.Infix to Postfix";
+        cout<<"\n 2.Exit";
+        cout<<"\n Enter your option";
+        cin>>op;
+        switch(op)
+        {
+            case 1:postfix();break;
+            case 2:break;
+        }
+    }while(op<2);
+}
+int push(char x, node **top)
+{
+    node *newnode;char y;
+node *temp;
+y=(top)->data;
+temp=top;
+*top=(top)->next;
+delete temp;
+return y;
+
+int postfix()
+{
+char exp[40];
+char ch;
+int length, j, i;
+char post[40];
+j=0;
+cout<<"\n enter the expression:";
+cin>>exp;
+length=strlen(exp);
+cout<<"in post fix is:";
+for(i=0; i<length-1; i++)
+{
+ch=exp[i];
+if(ch=='('||ch=='+'||ch=='-'||ch=='*'||ch=='/')
+{
+push(ch,&top);
+}
+else if(ch=='=')
+{
+post[j]=ch;
+j++;
+cout<<ch;
+}
+else
+{
+do
+{
+ch=pop(&top);
+if(ch!='(')
+{
+post[j]=ch;
+j++;
+cout<<ch;
+}
+}while(ch!='(');
+}
+}
+post[j]='$';
+}
+    newnode=new node;
+    newnode->next=NULL;
+    newnode->data=x;
+    newnode->next=*top;
+    *top=newnode;
+}
+int pop(node **top)
