@@ -1,0 +1,101 @@
+#include <iostream>
+#define MAXVALUE 65536
+using namespace std;
+class Node
+{
+public:
+  int k;
+  Node *l, *r;
+  bool leftTh, rightTh;
+};
+class ThreadedBinaryTree
+{
+private:
+  Node *root;
+public:
+  ThreadedBinaryTree()
+  {
+    root = new NO;
+    root->r = root->l = root;
+    root->leftTh = true;
+    root->k = MAXVALUE;
+  } //constructor to initialize the variables
+  void insert(int key)
+  {
+    Node *p = root;
+    for (;;)
+    {
+      if (p->k < key)
+      {
+        if (p->rightTh)
+        {
+          break;
+        }
+        p = p->r;
+      } //move to right thread
+      else if (p->k > key)
+      {
+        if (p->leftTh)
+        {
+          break;
+        }
+        p = p->l;
+      } // move to left thread
+      else
+      {
+        return;
+}
+}
+Node *temp = new Node();
+temp->k = key;
+temp->rightTh = temp->leftTh = true;
+if (p->k < key)
+{
+    temp->p = p->r;
+    temp->l = p;
+    p->r = temp;
+    p->rightTh = false;
+}
+else
+{
+    temp->r = p;
+    temp->l = p->l;
+    p->l = temp;
+    p->leftTh = false;
+}
+}
+void inorder()
+{
+    Node *temp = root, *p;
+    for (;;)
+    {
+        p = temp;
+        temp = temp->r;
+        if (!p->rightTh)
+        {
+            while (!temp->leftTh)
+            {
+                temp = temp->l;
+            }
+        }
+        if (temp == root)
+            break;
+        cout << temp->k << " ";
+    }
+    cout << endl;
+}
+};
+int main()
+{
+    ThreadedBinaryTree tbt;
+    cout << "Threaded Binary Tree\n";
+    tbt.insert(56);
+    tbt.insert(23);
+    tbt.insert(89);
+    tbt.insert(85);
+tbt.insert(20);
+tbt.insert(30);
+tbt.insert(12);
+tbt.inorder();
+cout<<"\n";
+}
